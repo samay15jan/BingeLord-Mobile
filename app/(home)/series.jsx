@@ -1,13 +1,14 @@
-import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { View } from 'react-native'
+import tw from 'twrnc'
+import { StatusBar } from 'expo-status-bar'
+import Hero from '../../components/content/Hero'
 
 const Series = () => {
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Series</Text>
-      </View>
-    </SafeAreaView>
+    <View style={tw`bg-[#121212] flex w-full h-full`}>
+      <StatusBar style='light' translucent={true} />
+      <Hero type='series'/>
+    </View>
   )
 }
 

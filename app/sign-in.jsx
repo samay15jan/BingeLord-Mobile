@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSession } from './ctx'
 import { router } from 'expo-router'
 import tw from 'twrnc'
+import { StatusBar } from 'expo-status-bar'
 
 export default function AuthMenu() {
   const { register, signIn, isLoading, session } = useSession()
@@ -61,7 +62,8 @@ export default function AuthMenu() {
   }
 
   return (
-    <SafeAreaView>
+    <View style={tw`bg-black w-full h-full flex`}>
+      <StatusBar style='light' />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
@@ -77,7 +79,7 @@ export default function AuthMenu() {
             >
               <Card
                 style={[
-                  tw`px-4 py-3 mx-5 my-5 rounded-xl h-screen bg-black bg-opacity-80`,
+                  tw`px-4 py-3 mx-5 my-5 h-screen bg-black bg-opacity-80`,
                   { color: 'white' },
                 ]}
               >
@@ -145,6 +147,6 @@ export default function AuthMenu() {
           </Card>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   )
 }

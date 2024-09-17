@@ -4,12 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSession } from '../ctx'
 import tw from 'twrnc'
 import { useState } from 'react'
+import { StatusBar } from 'expo-status-bar'
 
 const Account = () => {
   const { signOut } = useSession()
   const [response, setResponse] = useState('null')
   return (
-    <SafeAreaView>
+    <SafeAreaView style={tw`bg-black flex w-full h-full`}>
+      <StatusBar style='light'/>
       <View>
         <Button
           mode='contained'
