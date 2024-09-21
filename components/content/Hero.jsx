@@ -5,6 +5,8 @@ import { Text, View, FlatList, TouchableOpacity } from 'react-native'
 import { trendingStore } from '../../utils/zustand'
 import { useStore } from 'zustand'
 import { Image } from 'expo-image'
+import { AddButton, WatchButton } from './Buttons'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
@@ -13,33 +15,31 @@ const useTrending = (type) => {
   const state = useStore(trendingStore)
   const trending =
     type === 'movies' ? state.trending.movies : state.trending.series
-  const updateTrending = (newData) =>
-    state.updateTrending({ ...state.trending, [type]: newData })
+  const updateTrending = (newselectedItem) =>
+    state.updateTrending({ ...state.trending, [type]: newselectedItem })
 
   return { trending, updateTrending }
 }
 
 const Hero = ({ type }) => {
-  const { trending, updateTrending } = useTrending(type);
+  const { trending, updateTrending } = useTrending(type)
   const [selectedItem, setSelectedItem] = React.useState()
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
       const index = trending?.results?.indexOf(selectedItem)
       const newItem =
-        trending?.results?.length === index
-          ? trending?.results[0]
-          : trending?.results[index + 1]
+        (trending?.results?.length != index && trending?.results[index + 1]) ||
+        trending?.results[0]
       setSelectedItem(newItem)
     }, 5000)
 
     return () => clearInterval(intervalId)
   }, [trending, selectedItem])
-
   React.useEffect(() => {
     axios
       .get(
-        `https://bingelord-backend.onrender.com/api/${type === 'movies' ? 'TrendingMovie' : 'TrendingTV'}`
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}${type === 'movies' ? 'TrendingMovie' : 'TrendingTV'}`
       )
       .then((response) => {
         updateTrending(response.data)
@@ -51,11 +51,11 @@ const Hero = ({ type }) => {
   }, [])
 
   return (
-    <View style={tw`relative`}>
+    <View style={tw`relative mb-10`}>
       <Poster path={selectedItem?.backdrop_path} />
-      <Text style={tw`text-white text-xl font-medium`}>
-        {selectedItem?.title || selectedItem?.name}
-      </Text>
+      <View style={tw`relative`}>
+        <Details selectedItem={selectedItem} />
+      </View>
       <FlatList
         style={tw`mx-2 mt-2`}
         horizontal
@@ -77,8 +77,8 @@ const Hero = ({ type }) => {
 const Poster = ({ path }) => {
   return (
     <Image
-      style={tw`w-full h-2/3`}
-      source={`https://image.tmdb.org/t/p/original${path}`}
+      style={tw`w-full h-96 rounded-xl shadow-xl`}
+      source={`${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${path}`}
       placeholder={{ blurhash }}
       contentFit='cover'
       transition={500}
@@ -91,12 +91,45 @@ const ImageCarousal = ({ item, onPress }) => {
     <TouchableOpacity onPress={onPress}>
       <Image
         style={tw`w-24 h-14 rounded-md mx-1 shadow-xl`}
-        source={{ uri: `https://image.tmdb.org/t/p/original${item}` }}
+        source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item}` }}
         placeholder={{ blurhash }}
         contentFit='cover'
         transition={500}
       />
     </TouchableOpacity>
+  )
+}
+
+const Details = ({ selectedItem }) => {
+  return (
+    <LinearGradient
+      colors={[
+        'transparent',
+        'rgba(0, 0, 0,0.3)',
+        'rgba(0, 0, 0,0.5)',
+        'rgba(0, 0, 0,0.6)',
+        'rgba(0, 0, 0,0.7)',
+        'rgba(18, 18, 18, 08)',
+      ]}
+      style={tw`w-full absolute bottom-0 pl-5`}
+    >
+      <Text style={tw`text-[14px] mt-5 font-medium text-white`}>
+        <Image
+          source={require('../../assets/tmdb.png')}
+          placeholder={{ blurhash }}
+          style={{ width: 25, height: 10, marginLeft: 10 }}
+          transition={500}
+        />
+        {selectedItem?.vote_average.toFixed(1)}
+      </Text>
+      <Text style={tw`text-white mt-2 text-xl font-bold max-w-80`}>
+        {selectedItem?.title || selectedItem?.name}
+      </Text>
+      <View style={tw`flex-row`}>
+        <WatchButton />
+        <AddButton />
+      </View>
+    </LinearGradient>
   )
 }
 

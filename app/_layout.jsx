@@ -1,11 +1,14 @@
 import { Slot } from 'expo-router'
 import { SessionProvider } from './ctx'
+import { PaperProvider } from 'react-native-paper'
 
 const RootLayout = () => {
   return (
-    <SessionProvider>
-      <Slot />
-    </SessionProvider>
+    <PaperProvider>
+      <SessionProvider>
+        <Slot />
+      </SessionProvider>
+    </PaperProvider>
   )
 }
 

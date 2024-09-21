@@ -15,6 +15,7 @@ import { useSession } from './ctx'
 import { router } from 'expo-router'
 import tw from 'twrnc'
 import { StatusBar } from 'expo-status-bar'
+import { DarkTheme } from '@react-navigation/native'
 
 export default function AuthMenu() {
   const { register, signIn, isLoading, session } = useSession()
@@ -62,15 +63,15 @@ export default function AuthMenu() {
   }
 
   return (
-    <View style={tw`bg-black w-full h-full flex`}>
+    <View style={tw`bg-black w-full h-full`}>
       <StatusBar style='light' />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <Card style={tw`bg-black w-full h-full flex`}>
+          <Card style={tw`bg-black w-full h-full`}>
             <Image
-              style={tw`w-full h-full absolute opacity-20`}
+              style={tw`w-full h-full relative opacity-20`}
               source={require('../assets/auth-background.webp')}
               alt='logo'
             />
@@ -97,17 +98,24 @@ export default function AuthMenu() {
                   onChangeText={(text) => setEmail(text)}
                   outlineColor='#121212'
                   selectionColor='white'
+                  keyboardAppearance='dark'
+                  keyboardType='email-address'
+                  autoCapitalize='none'
                 />
                 <View>
                   <TextInput
                     mode='outlined'
                     label='Password'
+                    theme={DarkTheme}
                     style={tw`m-2 h-12`}
                     textContentType='password'
                     value={password}
                     secureTextEntry={hidePassword ? true : false}
                     onChangeText={(text) => setPassword(text)}
                     outlineColor='#121212'
+                    keyboardAppearance='dark'
+                    keyboardType='visible-password'
+                    autoCapitalize='none'
                     right={
                       <TextInput.Icon
                         style={tw`h-14 mt-4`}
