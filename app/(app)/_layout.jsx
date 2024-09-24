@@ -1,6 +1,6 @@
 import { Text, StyleSheet } from 'react-native'
 import { Redirect, Stack } from 'expo-router'
-import { useSession } from '../ctx'
+import { useSession } from '../utils/ctx'
 
 const globalStyles = StyleSheet.create({
   container: {

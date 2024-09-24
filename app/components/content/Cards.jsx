@@ -216,7 +216,7 @@ const Rating = ({ votes }) => {
       >
         <Text style={tw`text-[12px] font-medium text-gray-400`}>
           <Image
-            source={require('../../assets/tmdb.png')}
+            source={require('../../../assets/tmdb.png')}
             style={{ width: 24, height: 10, marginLeft: 5 }}
             transition={500}
           />

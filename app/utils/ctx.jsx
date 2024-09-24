@@ -1,6 +1,6 @@
 import { useContext, createContext } from 'react'
-import { useStorageState } from './useStorageState.jsx'
-import { auth } from '../utils/firebase.js'
+import { useStorageState } from './useStorageState'
+import { auth } from './firebase'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

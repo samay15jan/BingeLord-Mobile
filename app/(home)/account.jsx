@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSession } from '../ctx'
+import { useSession } from '../utils/ctx'
 import tw from 'twrnc'
 import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'

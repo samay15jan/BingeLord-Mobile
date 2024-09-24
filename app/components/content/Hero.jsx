@@ -115,7 +115,7 @@ const Details = ({ selectedItem }) => {
     >
       <Text style={tw`text-[14px] mt-5 font-medium text-white`}>
         <Image
-          source={require('../../assets/tmdb.png')}
+          source={require('../../../assets/tmdb.png')}
           placeholder={{ blurhash }}
           style={{ width: 25, height: 10, marginLeft: 10 }}
           transition={500}

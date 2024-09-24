@@ -47,5 +47,12 @@
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3"
   },
-  "private": true
+  "private": true,
+  "prettier": "./config/.prettierrc",
+  "eslintConfig": {
+    "extends": "./config/.eslintrc.js"
+  },
+  "babel": {
+    "extends": "./config/babel.config.js"
+  }
 }
