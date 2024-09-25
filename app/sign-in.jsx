@@ -1,63 +1,61 @@
 import {
   Text,
-  Pressable,
+  TouchableOpacity,
   View,
   KeyboardAvoidingView,
   Keyboard,
   Platform,
-  Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native'
-import { useState } from 'react'
+import React from 'react'
 import { Card, TextInput, Button } from 'react-native-paper'
 import { useSession } from './utils/ctx'
 import { router } from 'expo-router'
 import tw from 'twrnc'
 import { StatusBar } from 'expo-status-bar'
-import { DarkTheme } from '@react-navigation/native'
+import { ImageBackground } from 'expo-image'
 
 export default function AuthMenu() {
-  const { register, signIn, isLoading, session } = useSession()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [hidePassword, setHidePassword] = useState(true)
-  const [type, setType] = useState('Login')
-  const [error, setError] = useState('')
+  const { register, signIn, isLoading, session, error } = useSession()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [hidePassword, setHidePassword] = React.useState(true)
+  const [type, setType] = React.useState('Sign Up')
+
+  function handleMenu() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='#cc021a' />
+      </View>
+    )
+  }
+
+  React.useEffect(() => {
+    if (session) {
+      router.replace('/')
+    }
+    if (isLoading) {
+      handleMenu()
+    }
+  }, [session, isLoading])
 
   const changeMenu = () => {
     type === 'Login' ? setType('Sign Up') : setType('Login')
     setEmail('')
     setPassword('')
-    setError('')
   }
 
   const handleSubmit = async () => {
-    // Login
-    if (type === 'Login') {
-      try {
-        const response = signIn(email, password)
-        if (response) {
-          setError(response)
-          router.replace('/')
-        }
-      } catch (error) {
-        setError(error)
-        setEmail('')
-        setPassword('')
+    try {
+      if (type === 'Login') {
+        signIn(email, password)
+      } else {
+        register(email, password)
       }
-    }
-    // Register
-    else {
-      try {
-        const response = register(email, password)
-        if (response) {
-          setError(response)
-        }
-      } catch (error) {
-        setError(error)
-        setEmail('')
-        setPassword('')
-      }
+    } catch (error) {
+      setEmail('')
+      setPassword('')
     }
   }
 
@@ -69,17 +67,15 @@ export default function AuthMenu() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Card style={tw`bg-black w-full h-full`}>
-            <Image
-              style={tw`w-full h-full relative opacity-20`}
+            <ImageBackground
+              style={tw`w-full h-full absolute opacity-20`}
               source={require('../assets/auth-background.webp')}
               alt='logo'
             />
-            <View
-              style={tw`w-full h-full justify-center shadow-xl drop-shadow-2xl`}
-            >
+            <View style={tw`w-full h-full justify-center shadow-xl`}>
               <Card
                 style={[
-                  tw`px-4 py-3 mx-5 my-5 h-screen bg-black bg-opacity-80`,
+                  tw`px-4 py-3 mx-5 my-5 bg-black bg-opacity-80`,
                   { color: 'white' },
                 ]}
               >
@@ -89,66 +85,86 @@ export default function AuthMenu() {
                   {type === 'Login' ? 'Log In' : 'Sign Up'}
                 </Text>
                 <TextInput
-                  mode='outlined'
+                  mode='flat'
                   label='Email'
-                  style={[tw`m-2 h-12 `, { color: 'white' }]}
+                  style={tw`m-2 h-12 bg-transparent text-[16px]`}
                   textContentType='emailAddress'
                   value={email}
                   onChangeText={(text) => setEmail(text)}
-                  outlineColor='#121212'
-                  selectionColor='white'
+                  textColor='white'
+                  underlineColor='gray'
+                  activeUnderlineColor='#7f1d1d'
                   keyboardAppearance='dark'
                   keyboardType='email-address'
                   autoCapitalize='none'
                 />
-                <View>
-                  <TextInput
-                    mode='outlined'
-                    label='Password'
-                    theme={DarkTheme}
-                    style={tw`m-2 h-12`}
-                    textContentType='password'
-                    value={password}
-                    secureTextEntry={hidePassword ? true : false}
-                    onChangeText={(text) => setPassword(text)}
-                    outlineColor='#121212'
-                    keyboardAppearance='dark'
-                    keyboardType='visible-password'
-                    autoCapitalize='none'
-                    right={
-                      <TextInput.Icon
-                        style={tw`h-14 mt-4`}
-                        icon={!hidePassword ? 'eye' : 'eye-off'}
-                        onPress={() => setHidePassword(!hidePassword)}
-                        color='white'
-                        loading='false'
-                      />
-                    }
-                  />
-                </View>
-                <Text style={tw`text-white h-auto text-center`}>{error}</Text>
+                <TextInput
+                  mode='flat'
+                  label='Password'
+                  style={tw`m-2 h-12 bg-transparent text-[16px]`}
+                  textContentType='password'
+                  value={password}
+                  secureTextEntry={hidePassword ? true : false}
+                  onChangeText={(text) => setPassword(text)}
+                  textColor='white'
+                  underlineColor='gray'
+                  activeUnderlineColor='#7f1d1d'
+                  keyboardAppearance='dark'
+                  keyboardType='visible-password'
+                  autoCapitalize='none'
+                  right={
+                    <TextInput.Icon
+                      style={tw`h-14 mt-4`}
+                      icon={!hidePassword ? 'eye' : 'eye-off'}
+                      onPress={() => setHidePassword(!hidePassword)}
+                      color='gray'
+                      loading={isLoading}
+                    />
+                  }
+                />
+                {error && (
+                  <Text
+                    style={[
+                      tw`text-sm font-light h-auto text-center mt-2 opacity-80`,
+                      {
+                        color: 'red',
+                      },
+                    ]}
+                  >
+                    {error}
+                  </Text>
+                )}
                 <Button
                   mode='contained'
-                  style={[
-                    tw`text-xl text-white bg-red-900 font-medium rounded-md h-10 m-2`,
-                    {
-                      shadowOffset: { width: 0, height: 2 },
-                    },
-                  ]}
+                  style={tw`text-xl text-white bg-[#7f1d1d] font-medium rounded-md h-10 m-2 mt-5`}
                   onPress={handleSubmit}
                 >
-                  {type}
+                  {!isLoading && type === 'Login'
+                    ? 'Continue'
+                    : 'Become A BingeLord'}
+                  {isLoading && (
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ActivityIndicator size='large' color='#cc021a' />
+                    </View>
+                  )}
                 </Button>
-                <Pressable style={tw`grid mt-5`}>
-                  <Text style={tw`text-sm text-white font-medium rounded-md `}>
+                <View style={tw`my-5`}>
+                  <Text style={tw`text-sm text-white font-medium rounded-md`}>
                     {type === 'Login' ? 'New to BingeLord?' : 'Existing User?'}
                   </Text>
-                  <Pressable onPress={changeMenu}>
-                    <Text style={tw`text-sm text-white font-medium rounded-md`}>
+                  <TouchableOpacity onPress={changeMenu}>
+                    <Text
+                      style={tw`text-sm text-gray-500 font-medium rounded-md`}
+                    >
                       {type === 'Login' ? 'Sign Up now' : 'Login'}
                     </Text>
-                  </Pressable>
-                </Pressable>
+                  </TouchableOpacity>
+                </View>
               </Card>
             </View>
           </Card>

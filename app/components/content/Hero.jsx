@@ -8,8 +8,7 @@ import { Image } from 'expo-image'
 import { AddButton, WatchButton } from './Buttons'
 import { LinearGradient } from 'expo-linear-gradient'
 
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
+const blurhash ='$5OWpW-UL3K,00]y-=GK'
 
 const useTrending = (type) => {
   const state = useStore(trendingStore)
@@ -27,15 +26,16 @@ const Hero = ({ type }) => {
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
-      const index = trending?.results?.indexOf(selectedItem)
+      const index = trending?.results?.slice(0,5)?.indexOf(selectedItem)
       const newItem =
-        (trending?.results?.length != index && trending?.results[index + 1]) ||
+        (trending?.results.slice(0,5)?.length != index && trending?.results[index + 1]) ||
         trending?.results[0]
       setSelectedItem(newItem)
     }, 5000)
 
     return () => clearInterval(intervalId)
   }, [trending, selectedItem])
+  
   React.useEffect(() => {
     axios
       .get(
@@ -60,7 +60,7 @@ const Hero = ({ type }) => {
         style={tw`mx-2 mt-2`}
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={trending?.results || trending?.results}
+        data={trending?.results?.slice(0,6) || trending?.results?.slice(0,6)}
         renderItem={({ item }) => (
           <ImageCarousal
             item={item?.backdrop_path}
@@ -78,7 +78,7 @@ const Poster = ({ path }) => {
   return (
     <Image
       style={tw`w-full h-96 rounded-xl shadow-xl`}
-      source={`${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${path}`}
+      source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_HD}${path}`, cache: 'only-if-cached' }}
       placeholder={{ blurhash }}
       contentFit='cover'
       transition={500}
@@ -91,7 +91,7 @@ const ImageCarousal = ({ item, onPress }) => {
     <TouchableOpacity onPress={onPress}>
       <Image
         style={tw`w-24 h-14 rounded-md mx-1 shadow-xl`}
-        source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item}` }}
+        source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_SD}${item}`, cache: 'only-if-cached' }}
         placeholder={{ blurhash }}
         contentFit='cover'
         transition={500}
@@ -116,7 +116,6 @@ const Details = ({ selectedItem }) => {
       <Text style={tw`text-[14px] mt-5 font-medium text-white`}>
         <Image
           source={require('../../../assets/tmdb.png')}
-          placeholder={{ blurhash }}
           style={{ width: 25, height: 10, marginLeft: 10 }}
           transition={500}
         />

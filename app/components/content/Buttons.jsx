@@ -2,6 +2,7 @@ import React from 'react'
 import { TouchableOpacity, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Link } from 'expo-router'
 
 export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
   return (
@@ -18,6 +19,11 @@ export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
           transform: [{ skewX: '-14deg' }],
         }}
       >
+        <Link
+        href={{
+          pathname: '/details/[id]',
+          params: { id: 'bacon', type: 'something' },
+        }}>
         <Text
           style={{
             color: 'white',
@@ -27,6 +33,7 @@ export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
         >
           Watch Now
         </Text>
+        </Link>
       </LinearGradient>
     </TouchableOpacity>
   )

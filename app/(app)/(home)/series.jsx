@@ -2,8 +2,8 @@
 import { ScrollView } from 'react-native'
 import tw from 'twrnc'
 import { StatusBar } from 'expo-status-bar'
-import Hero from '../components/content/Hero'
-import Genres from '../components/content/Cards'
+import Hero from '../../components/content/Hero'
+import Genres from '../../components/content/Cards'
 import { View } from 'react-native'
 
 const Series = () => {

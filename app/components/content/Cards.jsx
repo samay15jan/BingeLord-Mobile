@@ -110,7 +110,7 @@ const GenreContainer = React.memo(({ id, type }) => {
   const getResult = () => {
     const item = genre && genre.find((item) => item?.id === id)
     const ShuffledData = shuffleItems(item?.data?.results)
-    return item ? ShuffledData : null
+    return item ? ShuffledData?.slice(0, 7) : null
   }
 
   return (
@@ -190,8 +190,7 @@ const Card = ({ type, data }) => {
 }
 
 const ImageContainer = ({ path, isFaded }) => {
-  const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
+  const blurhash ='$5OWpW-UL3K,00]y-=GK'
 
   return (
     <View style={isFaded && { opacity: 0.2 }}>
@@ -201,7 +200,8 @@ const ImageContainer = ({ path, isFaded }) => {
         contentFit='cover'
         transition={500}
         source={{
-          uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${path}`,
+          uri: `${process.env.EXPO_PUBLIC_IMAGE_SD}${path}`,
+          cache: 'only-if-cached'
         }}
       />
     </View>

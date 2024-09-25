@@ -1,4 +1,4 @@
-import { useContext, createContext } from 'react'
+import React from 'react'
 import { useStorageState } from './useStorageState'
 import { auth } from './firebase'
 import {
@@ -7,20 +7,30 @@ import {
   signOut,
 } from 'firebase/auth'
 
-const AuthContext = createContext({
+const AuthContext = React.createContext({
   register: () => null,
   signIn: () => null,
   signOut: () => null,
   session: null,
   isLoading: false,
+  error: null,
 })
 
 export function useSession() {
-  return useContext(AuthContext)
+  return React.useContext(AuthContext)
 }
 
 export function SessionProvider({ children }) {
   const [[isLoading, session], setSession] = useStorageState('session')
+  const [error, setError] = React.useState(null)
+
+  React.useEffect(()  => {
+    if(error){
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    }
+  }, [error])
 
   return (
     <AuthContext.Provider
@@ -33,34 +43,36 @@ export function SessionProvider({ children }) {
               password
             )
             const user = userCredential.user
-            setSession(user)
+            setSession([false, JSON.stringify(user)])
           } catch (error) {
-            return error.message
+            setError(error?.message);
           }
         },
         signIn: async (email, password) => {
           try {
+            setSession([true, null])
             const userCredential = await signInWithEmailAndPassword(
               auth,
               email,
               password
             )
             const user = userCredential.user
-            setSession(user)
+            setSession([false, JSON.stringify(user)])
           } catch (error) {
-            return error.message
+            setError(error?.message);
           }
         },
         signOut: async () => {
           try {
             await signOut(auth)
-            setSession(null)
+            setSession([null, null])
           } catch (error) {
-            return error
+            setError(error?.message);
           }
         },
         session,
         isLoading,
+        error,
       }}
     >
       {children}

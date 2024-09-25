@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from 'react-native'
+import { View, ActivityIndicator, StyleSheet } from 'react-native'
 import { Redirect, Stack } from 'expo-router'
 import { useSession } from '../utils/ctx'
 
@@ -16,14 +16,19 @@ const globalStyles = StyleSheet.create({
 const RootLayout = () => {
   const { session, isLoading } = useSession()
   if (isLoading) {
-    return <Text>Loading...</Text>
+    return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121212'}}>
+      <ActivityIndicator size="large" color="#cc021a" />
+    </View>
+    )
   }
   if (!session) {
     return <Redirect href='/sign-in' />
   }
   return (
-    <Stack style={globalStyles.container} screenOptions={{ headerShown: false }}>
+    <Stack style={globalStyles.container} >
       <Stack.Screen name='(home)' options={{ headerShown: false }} />
+      <Stack.Screen name='details/[id]' options={{ headerShown: false }} />
     </Stack>
   )
 }
