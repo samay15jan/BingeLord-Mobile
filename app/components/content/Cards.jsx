@@ -109,8 +109,8 @@ const GenreContainer = React.memo(({ id, type }) => {
 
   const getResult = () => {
     const item = genre && genre.find((item) => item?.id === id)
-    const ShuffledData = shuffleItems(item?.data?.results)
-    return item ? ShuffledData?.slice(0, 7) : null
+    const ShuffledData = shuffleItems(item?.data?.results?.slice(0, 7))
+    return item ? ShuffledData : null
   }
 
   return (
@@ -163,6 +163,8 @@ const Card = ({ type, data }) => {
             <Description data={data} />
             <View style={tw`absolute bottom-0 px-2 flex-row`}>
               <WatchButton
+                id={data?.id}
+                type={type}
                 size={12}
                 px={8}
                 py={8}
@@ -267,4 +269,5 @@ const Description = ({ data }) => {
     </View>
   )
 }
+
 export default Genres

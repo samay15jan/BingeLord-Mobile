@@ -28,7 +28,8 @@ const RootLayout = () => {
   return (
     <Stack style={globalStyles.container} >
       <Stack.Screen name='(home)' options={{ headerShown: false }} />
-      <Stack.Screen name='details/[id]' options={{ headerShown: false }} />
+      <Stack.Screen name='details/content' options={{ headerShown: false }} />
+      <Stack.Screen name='details/stream' options={{ headerShown: false }} />
     </Stack>
   )
 }

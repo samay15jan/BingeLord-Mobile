@@ -5,6 +5,11 @@ export const trendingStore = create((set) => ({
   updateTrending: (newData) => set({ trending: newData }),
 }))
 
+export const contentStore = create((set) => ({
+  content: { movies: null, series: null },
+  updateContent: (newData) => set({ content: newData }),
+}))
+
 export const genreStore = create((set) => ({
   genre: { movies: null, series: null },
   updateGenre: (newGenreData) =>

@@ -2,13 +2,21 @@ import React from 'react'
 import { TouchableOpacity, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Link } from 'expo-router'
+import { router } from 'expo-router'
 
-export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
+export const WatchButton = ({ id, type, size, px, py, my, mt, rounded, fontWeight, customText, customColor }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity 
+      onPress={
+        () => router.navigate(
+          href={
+            pathname: customText ? '/details/stream' : '/details/content',
+            params: { id: id, type: type }
+          }
+      )}
+    >
       <LinearGradient
-        colors={['#cc021a', '#ff004d']}
+        colors={customColor ? customColor : ['#cc021a', '#ff004d']}
         style={{
           position: 'relative',
           paddingHorizontal: px || 16,
@@ -19,11 +27,6 @@ export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
           transform: [{ skewX: '-14deg' }],
         }}
       >
-        <Link
-        href={{
-          pathname: '/details/[id]',
-          params: { id: 'bacon', type: 'something' },
-        }}>
         <Text
           style={{
             color: 'white',
@@ -31,9 +34,8 @@ export const WatchButton = ({ size, px, py, my, mt, rounded, fontWeight }) => {
             fontSize: size || 20,
           }}
         >
-          Watch Now
+          {customText ? customText : 'Watch Now'}
         </Text>
-        </Link>
       </LinearGradient>
     </TouchableOpacity>
   )
@@ -44,7 +46,7 @@ export const AddButton = ({ size, px, py, my, ml, mt, rounded, transform }) => {
   return (
     <TouchableOpacity onPress={() => removeIcon(!saveIcon)}>
       <LinearGradient
-        colors={['#303030', '#323232']}
+        colors={['#191919', '#1a1a1a']}
         style={{
           position: 'relative',
           paddingHorizontal: px || 16,
