@@ -170,7 +170,7 @@ const Card = ({ type, data }) => {
                 py={8}
                 my={4}
                 mt={20}
-                rounded={5}
+                // rounded={5}
                 fontWeight='heavy'
               />
               <AddButton
@@ -180,7 +180,7 @@ const Card = ({ type, data }) => {
                 my={10}
                 ml={4}
                 mt={20}
-                rounded={5}
+                // rounded={5}
                 transform
               />
             </View>
@@ -218,7 +218,7 @@ const Rating = ({ votes }) => {
       >
         <Text style={tw`text-[12px] font-medium text-gray-400`}>
           <Image
-            source={require('../../../assets/tmdb.png')}
+            source={require('../../assets/tmdb.png')}
             style={{ width: 24, height: 10, marginLeft: 5 }}
             transition={500}
           />

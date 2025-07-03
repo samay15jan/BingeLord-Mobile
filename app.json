@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.samay15jan.bingelord"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,6 +28,11 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "be81b777-e4a1-4a80-927f-97d45039af76"
+      }
+    }
   }
 }

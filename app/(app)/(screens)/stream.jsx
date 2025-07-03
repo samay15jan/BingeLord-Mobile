@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import { View, Text, SafeAreaView } from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
-import StreamContent from '../../components/content/StreamContent'
+import StreamContent from '../../../components/content/StreamContent'
 
 const Stream = () => {
   const { id, type } = useLocalSearchParams()

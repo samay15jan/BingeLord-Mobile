@@ -105,11 +105,12 @@ const Hero = ({ id, type, contentScreen }) => {
         <>
         <View style={tw`w-full px-5 mt-2`}>
           <Text style={tw`text-[14px] font-bold text-gray-200 my-2`}>Storyline</Text>
+          {selectedItem?.runtime && <Text style={tw`text-[14px] font-bold text-gray-200 my-2`}>{Math.floor(selectedItem?.runtime / 60) + 'h' + ' ' + selectedItem?.runtime % 60 + 'm'}</Text>}
           <Text style={tw`text-[12px] font-light text-gray-400`}>
             {selectedItem?.overview?.split('.')?.slice(0,2) || 'No description available'}
           </Text>
-        </View>    
-        <View style={[tw`flex-row`, {gap: '15px', justifyContent: 'center'}]}>
+        </View>
+        <View style={[tw`flex-row`, {gap: 15, justifyContent: 'center'}]}>
           <WatchButton id={selectedItem?.id} type={type} customText={'Play'} />
           <WatchButton id={selectedItem?.id} type={type} customText={'Watch Trailer'} customColor={['#191919', '#1a1a1a']} />
           <AddButton ml='0' rounded='12' transform/>
@@ -168,7 +169,7 @@ const Details = ({ selectedItem, contentScreen, type }) => {
       {/* Rating */}
       <Text style={tw`flex-row text-[14px] mt-5 font-medium text-white`}>
         <Image
-          source={require('../../../assets/tmdb.png')}
+          source={require('../../assets/tmdb.png')}
           style={{ width: 25, height: 10, marginLeft: 10 }}
           transition={500}
         />
@@ -176,7 +177,7 @@ const Details = ({ selectedItem, contentScreen, type }) => {
       </Text>
 
       {/* Heading */}
-      <Text style={[tw`text-white mt-2 font-bold max-w-80`, {fontSize: contentScreen ? '25px' : '20px'}]}>
+      <Text style={[tw`text-white mt-2 font-bold max-w-80`, {fontSize: contentScreen ? 25 : 20 }]}>
         {selectedItem?.title || selectedItem?.name}
       </Text>
 

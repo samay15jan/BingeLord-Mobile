@@ -3,8 +3,9 @@ import { ScrollView } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { View, Text } from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
-import Hero from '../../components/content/Hero'
-import Segment from '../../components/content/Segment'
+import Hero from '../../../components/content/Hero'
+import ImageDisplay from '../../../components/content/ImageDisplay'
+import Segment from '../../../components/content/Segment'
 
 const ContentScreen = () => {
   const { id, type } = useLocalSearchParams()
@@ -16,7 +17,8 @@ const ContentScreen = () => {
         {id && type ?
         <>
           <Hero id={id} type={type} contentScreen />
-          <Segment type={type}/>
+          <ImageDisplay id={id} type={type}/>
+          <Segment id={id} type={type}/>
         </>
         : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>An Error Occured.</Text>

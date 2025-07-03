@@ -3,8 +3,9 @@ import { useStore } from 'zustand'
 import { contentStore } from '../../utils/zustand'
 import { FlatList, View, Text } from 'react-native'
 import { SegmentedButtons } from 'react-native-paper'
-import Image from 'expo-image'
+import { Image } from 'expo-image'
 import tw from 'twrnc'
+import axios from 'axios'
 
 const useContent = (type) => {
   const state = useStore(contentStore)
@@ -16,9 +17,10 @@ const useContent = (type) => {
   return { content, updateContent }
 }
 
-export default function SegmentContainer ({ type }) {
+export default function SegmentContainer ({ id, type }) {
   const { content } = useContent(type)
   const [selectedSegment, setSelectedSegment] = React.useState('trailers');
+
 
   return (
     <>
@@ -50,9 +52,8 @@ export default function SegmentContainer ({ type }) {
 }
 
 const Segment = ({type, data}) => {
-  const blurhash = '$5OWpW-UL3K,00]y-=GK'
   const actors = data?.credits?.cast?.slice(0, 10)
-
+alert(actors)
   return (
     <>
     {type == 'about' &&
@@ -72,6 +73,8 @@ const Segment = ({type, data}) => {
 }
 
 const ImageContainer = ({path, name}) => {
+  const blurhash ='$5OWpW-UL3K,00]y-=GK'
+
   return (
     <View style={tw`mr-4`}> 
     <Image 
@@ -85,6 +88,6 @@ const ImageContainer = ({path, name}) => {
       transition={500}
     />
     <Text>{name}</Text>
-  </View>        
+  </View>
   )
 }

@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import React from 'react'
 import { Card, TextInput, Button } from 'react-native-paper'
-import { useSession } from './utils/ctx'
+import { useSession } from '../utils/ctx'
 import { router } from 'expo-router'
 import tw from 'twrnc'
 import { StatusBar } from 'expo-status-bar'

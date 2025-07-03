@@ -10,7 +10,7 @@ export const WatchButton = ({ id, type, size, px, py, my, mt, rounded, fontWeigh
       onPress={
         () => router.navigate(
           href={
-            pathname: customText ? '/details/stream' : '/details/content',
+            pathname: customText ? '/(screens)/stream' : '/(screens)/content',
             params: { id: id, type: type }
           }
       )}
@@ -23,7 +23,7 @@ export const WatchButton = ({ id, type, size, px, py, my, mt, rounded, fontWeigh
           paddingVertical: py || 8,
           marginVertical: my || 20,
           marginTop: mt || 20,
-          borderRadius: rounded || 12,
+          // borderRadius: rounded || 12,
           transform: [{ skewX: '-14deg' }],
         }}
       >
@@ -54,7 +54,7 @@ export const AddButton = ({ size, px, py, my, ml, mt, rounded, transform }) => {
           marginLeft: ml || 16,
           marginVertical: my || 20,
           marginTop: mt || 20,
-          borderRadius: rounded || 50,
+          // borderRadius: rounded || '50',
           transform: transform && [{ skewX: '-14deg' }],
         }}
       >
